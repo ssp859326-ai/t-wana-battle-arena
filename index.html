@@ -93,10 +93,10 @@ button{font:inherit;cursor:pointer;color:white;border:0}
  #lobbyNote{font-size:7px}
 }
 
-</style>
+#boot{position:fixed;inset:0;z-index:30;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 45%,#123c5a,#061422 55%,#020811);transition:opacity .7s}#boot.hide{opacity:0;pointer-events:none}.bootPanel{text-align:center;width:min(440px,86vw);padding:24px}.bootMark{font-size:clamp(28px,6vw,56px);font-weight:1000;letter-spacing:.18em;color:#e9fbff;text-shadow:0 0 26px #00bde9}.bootMark span{color:#55eaff}.bootSub{font-size:9px;letter-spacing:.42em;color:#8db5c8;margin:10px 0 34px}.bootTrack{height:4px;background:#173248;border-radius:8px;overflow:hidden;margin:auto;width:78%}#bootBar{height:100%;width:4%;background:linear-gradient(90deg,#19b9e8,#b0faff);box-shadow:0 0 18px #48eaff;transition:width .25s}#bootStatus{font-size:9px;letter-spacing:.2em;color:#a6d9e8;margin-top:13px}#rotateNotice{display:none;position:fixed;inset:0;z-index:40;background:#061422;color:#eafaff;align-items:center;justify-content:center;text-align:center;padding:28px}.rotateCard{max-width:300px}.rotateIcon{font-size:54px;color:#62eaff;display:block;margin-bottom:18px}@media(orientation:portrait) and (max-width:900px){#rotateNotice{display:flex}#boot,#lobby,#hud,#joystick,#look,#actions,#lobbyNav,#lobbyRight,#lobbyBottom{visibility:hidden}}@media(orientation:landscape) and (max-height:500px){#lobbyNav{top:25%;left:12px;gap:5px}.navItem{padding:6px 8px;width:92px;font-size:8px}#lobbyRight{top:23%;right:12px}.promo{padding:7px;width:125px}#lobbyContent{padding:0 18px 34px 125px}#lobby h1{font-size:clamp(26px,5vw,42px);margin:7px 0}#lobby .lead{font-size:9px;max-width:240px;line-height:1.4}#lobby .heroCard{padding:6px;margin:7px 0;max-width:210px}#lobby .heroIcon{width:32px;height:32px;font-size:18px}#start{padding:10px 18px;font-size:10px}#lobbyBottom{bottom:4px}}</style>
 </head>
 <body>
-<div id="scene"></div><div id="shade"></div>
+<div id="scene"></div><div id="boot"><div class="bootPanel"><div class="bootMark">T-WANA <span>ARENA</span></div><div class="bootSub">FRONTIER PROTOCOL // SEASON 01</div><div class="bootTrack"><div id="bootBar"></div></div><div id="bootStatus">INITIALISING 3D WORLD...</div></div></div><div id="rotateNotice"><div class="rotateCard"><span class="rotateIcon">▱ ↻</span><h2>ROTATE YOUR PHONE</h2><p>T-WANA Arena is designed for landscape gameplay. Turn your phone sideways to enter the island.</p></div></div><div id="shade"></div>
 <div id="brand">T-WANA <span style="color:var(--cyan)">// FRONTIER</span><small>ORIGINAL 3D ARENA EXPERIENCE</small></div>
 <div id="topright"><div class="pill">SEASON 01</div><div class="pill">ONLINE SIMULATION</div></div>
 <section id="lobby">
@@ -128,6 +128,7 @@ const root=document.getElementById('scene');
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x8ac5d5);scene.fog=new THREE.Fog(0x8ac5d5,65,190);
 const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,260);
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;root.appendChild(renderer.domElement);
+const bootBar=document.getElementById('bootBar'),bootStatus=document.getElementById('bootStatus');let bootProgress=5;const bootTimer=setInterval(()=>{bootProgress=Math.min(92,bootProgress+Math.random()*13);bootBar.style.width=bootProgress+'%';bootStatus.textContent=bootProgress<35?'LOADING CHARACTER RIG...':bootProgress<65?'BUILDING ISLAND ENVIRONMENT...':'OPTIMISING MOBILE GRAPHICS...'},180);function finishBoot(){clearInterval(bootTimer);bootBar.style.width='100%';bootStatus.textContent='WORLD READY';setTimeout(()=>document.getElementById('boot').classList.add('hide'),450);setTimeout(()=>document.getElementById('boot').style.display='none',1200)}function requestLandscape(){try{if(!document.fullscreenElement&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{});if(screen.orientation?.lock)screen.orientation.lock('landscape').catch(()=>{})}catch(e){}}document.addEventListener('pointerdown',()=>{if(innerWidth<innerHeight)requestLandscape()},{once:true});setTimeout(finishBoot,1800);
 scene.add(new THREE.HemisphereLight(0xd9f6ff,0x536b58,2.1));
 const sun=new THREE.DirectionalLight(0xfff1d5,2.1);sun.position.set(-45,70,30);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-65;sun.shadow.camera.right=65;sun.shadow.camera.top=65;sun.shadow.camera.bottom=-65;scene.add(sun);
 const mat=(c,r=.8,e=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,emissive:c,emissiveIntensity:e});
@@ -152,17 +153,39 @@ for(let i=0;i<24;i++){let a=i*2.4,r=48+(i%4)*7;tree(Math.cos(a)*r,Math.sin(a)*r)
 // sci-fi landing platform
 const platform=addMesh(new THREE.CylinderGeometry(10,12,.8,48),mat(0x263e50,.45),0,.35,0);const ring=addMesh(new THREE.TorusGeometry(10.5,.22,8,64),mat(0x43dff4,.3,1.2),0,.85,0);ring.rotation.x=Math.PI/2;
 for(let i=0;i<4;i++){let a=i*Math.PI/2;let p=addMesh(new THREE.CylinderGeometry(.3,.55,5,8),mat(0x1b8195,.4,.6),Math.cos(a)*8,2.5,Math.sin(a)*8);}
-// Original hero Nova: custom geometric suit, helmet, cyan accents
+// NOVA — ARTICULATED ORIGINAL SCI-FI EXPLORER
 const hero=new THREE.Group();scene.add(hero);
-const suit=mat(0x172b46,.45,.12),armor=mat(0x2a91aa,.35,.35),glow=mat(0x5ef2ff,.25,1.4),visor=new THREE.MeshStandardMaterial({color:0x061b2b,metalness:.8,roughness:.12});
-function part(g,m,x,y,z){let o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;hero.add(o);return o}
-part(new THREE.CapsuleGeometry(.55,.95,5,10),suit,0,1.35,0);part(new THREE.SphereGeometry(.48,18,14),armor,0,2.25,0);
-part(new THREE.BoxGeometry(.68,.22,.12),visor,0,2.3,.42);part(new THREE.BoxGeometry(.7,.09,.15),glow,0,2.18,.44);
-part(new THREE.BoxGeometry(1.2,.38,.7),armor,0,1.6,-.05);part(new THREE.BoxGeometry(.18,.8,.18),glow,-.63,1.45,0);part(new THREE.BoxGeometry(.18,.8,.18),glow,.63,1.45,0);
-for(let s of [-1,1]){part(new THREE.CylinderGeometry(.17,.2,.78,10),suit,s*.3,.48,0);part(new THREE.BoxGeometry(.35,.18,.55),armor,s*.3,.12,.12)}
-part(new THREE.BoxGeometry(.75,.13,.18),glow,0,2.75,-.12);hero.position.set(0,.85,12);
-
-// DENSE COASTAL DISTRICT: colorful low-poly architecture, rooftop details and landmark
+const suit=mat(0x172b46,.38,.12),armor=mat(0x2a91aa,.3,.28),darkArmor=mat(0x101c2b,.32,.12),glow=mat(0x5ef2ff,.2,1.5),skin=mat(0xc58b68,.75),whiteSuit=mat(0xd9e8eb,.35),eyeMat=mat(0x07131e,.2),eyeGlow=mat(0x6df4ff,.15,1.6);
+function part(parent,g,m,x,y,z){let o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o}
+const pelvis=new THREE.Group();pelvis.position.y=1;hero.add(pelvis);
+part(pelvis,new THREE.CapsuleGeometry(.43,.42,5,12),suit,0,.15,0);
+const torso=new THREE.Group();torso.position.set(0,.42,0);pelvis.add(torso);
+part(torso,new THREE.CapsuleGeometry(.53,.72,6,14),whiteSuit,0,.43,0);
+part(torso,new THREE.BoxGeometry(1.12,.56,.62),armor,0,.48,-.02);
+part(torso,new THREE.BoxGeometry(.72,.16,.67),darkArmor,0,.19,.02);
+part(torso,new THREE.BoxGeometry(.12,.66,.08),glow,-.39,.48,.34);part(torso,new THREE.BoxGeometry(.12,.66,.08),glow,.39,.48,.34);
+part(torso,new THREE.BoxGeometry(.36,.13,.08),glow,0,.64,.36);
+part(torso,new THREE.CylinderGeometry(.16,.2,.2,12),skin,0,.91,0);
+const head=new THREE.Group();head.position.set(0,1.12,.015);torso.add(head);
+part(head,new THREE.SphereGeometry(.36,24,20),skin,0,.12,.02);
+part(head,new THREE.BoxGeometry(.54,.16,.4),whiteSuit,0,.39,-.01);
+part(head,new THREE.BoxGeometry(.58,.12,.16),darkArmor,0,.31,.19);
+part(head,new THREE.BoxGeometry(.42,.07,.06),glow,0,.31,.28);
+for(const s of [-1,1]){part(head,new THREE.SphereGeometry(.045,12,10),eyeMat,s*.115,.16,.326);part(head,new THREE.SphereGeometry(.022,10,8),eyeGlow,s*.115,.16,.365);part(head,new THREE.SphereGeometry(.07,12,10),whiteSuit,s*.36,.09,.01)}
+part(head,new THREE.BoxGeometry(.09,.11,.12),skin,0,.07,.34);part(head,new THREE.BoxGeometry(.12,.025,.02),darkArmor,0,-.015,.35);
+part(head,new THREE.SphereGeometry(.405,24,16,0,Math.PI*2,0,Math.PI*.52),darkArmor,0,.17,-.015);
+part(head,new THREE.BoxGeometry(.12,.35,.3),armor,-.38,.06,-.02);part(head,new THREE.BoxGeometry(.12,.35,.3),armor,.38,.06,-.02);part(head,new THREE.BoxGeometry(.24,.07,.13),glow,0,.48,-.02);
+const armPivots=[],legPivots=[],kneePivots=[];
+for(const s of [-1,1]){
+ const shoulder=new THREE.Group();shoulder.position.set(s*.64,.77,0);torso.add(shoulder);armPivots.push(shoulder);
+ part(shoulder,new THREE.SphereGeometry(.22,14,12),armor,0,0,0);part(shoulder,new THREE.CapsuleGeometry(.16,.48,4,10),whiteSuit,0,-.34,0);part(shoulder,new THREE.BoxGeometry(.34,.24,.32),armor,0,-.48,.02);
+ const elbow=new THREE.Group();elbow.position.set(0,-.59,0);shoulder.add(elbow);part(elbow,new THREE.SphereGeometry(.16,12,10),darkArmor,0,0,0);part(elbow,new THREE.CapsuleGeometry(.14,.34,4,10),suit,0,-.23,0);part(elbow,new THREE.BoxGeometry(.29,.23,.3),glow,0,-.35,.02);
+ const hand=new THREE.Group();hand.position.set(0,-.49,.02);elbow.add(hand);part(hand,new THREE.SphereGeometry(.14,12,10),darkArmor,0,-.04,.02);for(let f=0;f<4;f++)part(hand,new THREE.CapsuleGeometry(.035,.12,3,6),skin,(f-1.5)*.065,-.16,.04);
+ const hip=new THREE.Group();hip.position.set(s*.28,-.02,0);pelvis.add(hip);legPivots.push(hip);part(hip,new THREE.CapsuleGeometry(.22,.47,4,10),suit,0,-.36,0);part(hip,new THREE.BoxGeometry(.42,.28,.38),armor,0,-.12,.02);
+ const knee=new THREE.Group();knee.position.set(0,-.68,.02);hip.add(knee);kneePivots.push(knee);part(knee,new THREE.SphereGeometry(.19,12,10),darkArmor,0,0,0);part(knee,new THREE.CapsuleGeometry(.16,.46,4,10),whiteSuit,0,-.31,0);part(knee,new THREE.BoxGeometry(.35,.3,.28),armor,0,-.35,.06);part(knee,new THREE.BoxGeometry(.3,.13,.48),darkArmor,0,-.61,.12);part(knee,new THREE.BoxGeometry(.38,.2,.62),suit,0,-.68,.2);part(knee,new THREE.BoxGeometry(.25,.035,.48),glow,0,-.58,.24);
+}
+hero.position.set(0,1.02,12);
+DENSE COASTAL DISTRICT: colorful low-poly architecture, rooftop details and landmark
 const facadeMats=[mat(0xd28a55),mat(0xdaa95f),mat(0x668e9a),mat(0xc96e56),mat(0x8d9d80),mat(0xd1c29a)];
 const roofMats=[mat(0x344a50),mat(0x8b5540),mat(0x536b70),mat(0xbaa16e)];
 function smallHouse(x,z,w,h,d,i){
@@ -208,7 +231,7 @@ const drones=[];for(let i=0;i<4;i++){let g=new THREE.Group();scene.add(g);let co
 let active=false,score=0,timeLeft=120,yaw=0,pitch=.22,last=performance.now(),clock=0,joy={x:0,y:0},keys={};
 const scoreEl=document.getElementById('score'),timeEl=document.getElementById('time'),statusEl=document.getElementById('status'),toast=document.getElementById('toast');
 function notify(t){toast.textContent=t;toast.style.opacity=1;clearTimeout(notify.timer);notify.timer=setTimeout(()=>toast.style.opacity=0,1300)}
-function begin(){active=true;score=0;timeLeft=120;clock=0;yaw=0;pitch=.22;hero.position.set(0,.85,12);beacons.forEach(b=>{b.active=false;b.crystal.visible=true;b.halo.visible=true;b.light.intensity=1.8});scoreEl.textContent='0 / 6';timeEl.textContent='120';statusEl.textContent='IN FIELD';document.getElementById('lobby').style.display='none';document.getElementById('hud').style.display='block';document.getElementById('joystick').style.display='block';document.getElementById('look').style.display='block';document.getElementById('actions').style.display='flex';notify('WELCOME, PATHFINDER')}
+function begin(){requestLandscape();active=true;score=0;timeLeft=120;clock=0;yaw=0;pitch=.22;hero.position.set(0,.85,12);beacons.forEach(b=>{b.active=false;b.crystal.visible=true;b.halo.visible=true;b.light.intensity=1.8});scoreEl.textContent='0 / 6';timeEl.textContent='120';statusEl.textContent='IN FIELD';document.getElementById('lobby').style.display='none';document.getElementById('hud').style.display='block';document.getElementById('joystick').style.display='block';document.getElementById('look').style.display='block';document.getElementById('actions').style.display='flex';notify('WELCOME, PATHFINDER')}
 document.getElementById('start').onclick=begin;
 function finish(win){active=false;document.getElementById('end').style.display='grid';document.getElementById('endTitle').textContent=win?'FRONTIER CLEAR':'TIME EXPIRED';document.getElementById('endText').textContent=win?'All six energy beacons activated. You completed the first frontier mission.':'You activated '+score+' of 6 beacons. Return to the island and try again.'}
 document.getElementById('again').onclick=()=>{document.getElementById('end').style.display='none';document.getElementById('hud').style.display='none';document.getElementById('joystick').style.display='none';document.getElementById('look').style.display='none';document.getElementById('actions').style.display='none';document.getElementById('lobby').style.display='flex';active=false};
@@ -222,7 +245,7 @@ function resetJoy(){joyId=null;joy.x=joy.y=0;stick.style.transform='translate(0,
 const look=document.getElementById('look');let lookId=null,lx=0,ly=0;look.addEventListener('pointerdown',e=>{lookId=e.pointerId;lx=e.clientX;ly=e.clientY;look.setPointerCapture(lookId)});look.addEventListener('pointermove',e=>{if(e.pointerId!==lookId)return;let dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;yaw-=dx*.005;pitch=Math.max(-.05,Math.min(.6,pitch+dy*.0025))});look.addEventListener('pointerup',()=>lookId=null);look.addEventListener('pointercancel',()=>lookId=null);
 function animate(now){requestAnimationFrame(animate);let dt=Math.min((now-last)/1000,.045);last=now;let t=now*.001;ring.rotation.z+=dt*.25;drones.forEach((d,i)=>{d.position.y=4+Math.sin(t*1.5+i)*.6;d.rotation.y+=dt*.5});beacons.forEach((b,i)=>{if(!b.active){b.crystal.rotation.y+=dt*.8;b.crystal.position.y=1.55+Math.sin(t*2+i)*.18;b.halo.rotation.z+=dt*.5}});
 if(active){clock+=dt;if(clock>=1){timeLeft--;clock=0;timeEl.textContent=timeLeft;if(timeLeft<=0)finish(false)}
-let f=(keys.w||keys.arrowup?1:0)-(keys.s||keys.arrowdown?1:0)-joy.y;let s=(keys.d||keys.arrowright?1:0)-(keys.a||keys.arrowleft?1:0)+joy.x;let l=Math.hypot(f,s);if(l>1){f/=l;s/=l}let speed=10*dt;hero.position.x+=(Math.cos(yaw)*s+Math.sin(yaw)*f)*speed;hero.position.z+=(Math.sin(yaw)*s-Math.cos(yaw)*f)*speed;hero.position.x=THREE.MathUtils.clamp(hero.position.x,-84,84);hero.position.z=THREE.MathUtils.clamp(hero.position.z,-84,84);hero.rotation.y=yaw;
+let f=(keys.w||keys.arrowup?1:0)-(keys.s||keys.arrowdown?1:0)-joy.y;let s=(keys.d||keys.arrowright?1:0)-(keys.a||keys.arrowleft?1:0)+joy.x;let l=Math.hypot(f,s);if(l>1){f/=l;s/=l}const moving=l>.08;let speed=(keys.shift?12:8.2)*dt;hero.position.x+=(Math.cos(yaw)*s+Math.sin(yaw)*f)*speed;hero.position.z+=(Math.sin(yaw)*s-Math.cos(yaw)*f)*speed;hero.position.x=THREE.MathUtils.clamp(hero.position.x,-84,84);hero.position.z=THREE.MathUtils.clamp(hero.position.z,-84,84);hero.rotation.y=yaw;const gait=moving?Math.sin(t*11):Math.sin(t*1.8)*.035;armPivots[0].rotation.x=moving?gait*.72:-.05;armPivots[1].rotation.x=moving?-gait*.72:.05;legPivots[0].rotation.x=moving?-gait*.78:Math.sin(t*1.8)*.025;legPivots[1].rotation.x=moving?gait*.78:-Math.sin(t*1.8)*.025;kneePivots[0].rotation.x=moving?Math.max(0,gait)*.65:0;kneePivots[1].rotation.x=moving?Math.max(0,-gait)*.65:0;hero.position.y=1.02+(moving?Math.abs(Math.cos(t*11))*.07:Math.sin(t*1.8)*.018);torso.rotation.z=moving?Math.sin(t*11)*.025:Math.sin(t*1.5)*.012;head.rotation.y=Math.sin(t*.8)*.035;
 let desired=new THREE.Vector3(hero.position.x+Math.sin(yaw)*10,hero.position.y+5+pitch*5,hero.position.z+Math.cos(yaw)*10);camera.position.lerp(desired,.12);camera.lookAt(hero.position.x,hero.position.y+1.2,hero.position.z);
 }else{camera.position.lerp(new THREE.Vector3(0,17,30),.025);camera.lookAt(0,1,0)}
 renderer.render(scene,camera)}
