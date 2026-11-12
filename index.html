@@ -43,20 +43,76 @@ button{font:inherit;cursor:pointer;color:white;border:0}
 .endCard h2{font-size:28px;margin:0 0 10px}.endCard p{color:#9db8c8;font-size:12px;line-height:1.6}
 #again{padding:13px 22px;background:#0baed5;border-radius:8px;font-weight:900;letter-spacing:1px}
 @media(max-width:650px){#brand{top:12px;left:14px;font-size:15px}#topright{top:12px;right:12px}.pill{padding:7px 9px;font-size:8px}#lobby{padding:22px}#lobbyContent{padding-bottom:20px}.lead{max-width:290px;font-size:12px}.heroCard{margin:16px 0}#objective{top:68px;font-size:9px}#hud{padding:12px}.hudBox{min-width:78px;padding:7px 9px}.hudValue{font-size:15px}#joystick{left:18px;bottom:20px;width:112px;height:112px}#stick{left:32px;top:32px}#actions{right:18px;bottom:20px}.action{width:65px;height:65px}#help{display:none}}
+
+/* FRONTIER LOBBY REDESIGN */
+#shade{background:linear-gradient(180deg,rgba(3,13,26,.12),transparent 42%,rgba(2,9,18,.82))}
+#brand{top:20px;left:24px;font-size:20px;letter-spacing:5px}
+#topright{top:18px;right:22px}
+#lobby{align-items:stretch;padding:0;background:linear-gradient(90deg,rgba(3,12,24,.62),transparent 44%,rgba(3,12,24,.08)),linear-gradient(0deg,rgba(3,12,24,.9),transparent 30%)}
+#lobbyContent{width:100%;display:flex;align-items:flex-end;justify-content:space-between;padding:0 4vw 28px;position:relative}
+#lobbyContent:before{content:"";position:absolute;left:4vw;top:22%;width:3px;height:150px;background:linear-gradient(var(--cyan),transparent);box-shadow:0 0 18px var(--cyan)}
+#lobby .kicker{font-size:10px;letter-spacing:5px}
+#lobby h1{font-size:clamp(32px,5vw,58px);line-height:.95;letter-spacing:-2px;margin:12px 0}
+#lobby .lead{font-size:12px;max-width:310px}
+#lobby .heroCard{max-width:280px;background:rgba(4,20,36,.58);border-color:#76eaff66;margin:12px 0}
+#lobby .heroIcon{background:linear-gradient(145deg,#123c55,#0b142b);font-size:27px}
+#start{background:linear-gradient(110deg,#ffe46a,#ffb51c);color:#18202a;border-radius:4px;padding:17px 32px;font-size:13px;letter-spacing:1.5px;box-shadow:0 0 30px #ffca4c55}
+#lobbyNote{color:#c0d9e5;font-size:8px}
+#lobbyNav{position:absolute;left:24px;top:31%;display:flex;flex-direction:column;gap:9px}
+.navItem{width:112px;padding:10px 12px;background:linear-gradient(90deg,#081a2acc,#081a2a66);border-left:2px solid #6cecff;color:#d9f8ff;font-size:10px;letter-spacing:1px}
+.navItem b{color:#68eaff;margin-right:7px}
+#lobbyRight{position:absolute;right:22px;top:28%;display:flex;flex-direction:column;gap:10px}
+.promo{width:clamp(120px,17vw,210px);padding:12px;background:linear-gradient(135deg,#103d61dd,#10192ddd);border:1px solid #76eaff77;color:white;font-size:10px;letter-spacing:1px;text-align:right}
+.promo strong{display:block;font-size:14px;color:#72edff;margin-bottom:4px}
+#lobbyBottom{position:absolute;bottom:12px;left:36%;right:25%;display:flex;justify-content:space-around;color:#d8edf5;font-size:10px;letter-spacing:1px}
+.lobbyTab{padding:8px 12px;border-bottom:2px solid #6cecff}
+#lobbyTop{position:absolute;top:72px;right:24px;display:flex;gap:8px}
+.lobbyCurrency{padding:8px 12px;background:#07192ac9;border:1px solid #6cecff55;border-radius:4px;font-size:10px}
+#lobby .lead{margin:0}
+@media(max-width:650px){
+ #brand{top:12px;left:14px;font-size:16px}
+ #topright{top:12px;right:12px}
+ #lobbyContent{padding:0 18px 52px;align-items:flex-end}
+ #lobbyContent:before{left:18px;top:28%;height:95px}
+ #lobby h1{font-size:34px}
+ #lobby .lead{font-size:10px;max-width:220px;line-height:1.45}
+ #lobby .heroCard{padding:8px;gap:8px;max-width:215px;margin:9px 0}
+ #lobby .heroIcon{width:36px;height:36px}
+ #lobby .heroName{font-size:10px}
+ #lobby .heroRole{font-size:8px}
+ #start{padding:13px 18px;font-size:10px}
+ #lobbyNav{left:10px;top:28%;gap:6px}
+ .navItem{width:82px;padding:7px 6px;font-size:8px}
+ #lobbyRight{right:9px;top:27%;gap:6px}
+ .promo{width:105px;padding:8px;font-size:8px}
+ .promo strong{font-size:10px}
+ #lobbyBottom{left:25%;right:18%;bottom:12px;font-size:8px}
+ .lobbyTab{padding:6px 5px}
+ #lobbyTop{top:54px;right:10px}
+ .lobbyCurrency{padding:6px 7px;font-size:8px}
+ #lobbyNote{font-size:7px}
+}
+
 </style>
 </head>
 <body>
 <div id="scene"></div><div id="shade"></div>
 <div id="brand">T-WANA <span style="color:var(--cyan)">// FRONTIER</span><small>ORIGINAL 3D ARENA EXPERIENCE</small></div>
 <div id="topright"><div class="pill">SEASON 01</div><div class="pill">ONLINE SIMULATION</div></div>
-<section id="lobby"><div id="lobbyContent">
-<div class="kicker">WELCOME TO THE FRONTIER</div>
-<h1>DROP IN.<br><span>STAND OUT.</span></h1>
-<p class="lead">Explore a vast island arena, discover energy beacons and complete your first frontier challenge. Your journey starts here.</p>
+<section id="lobby">
+<div id="lobbyTop"><div class="lobbyCurrency">✦ 2,450</div><div class="lobbyCurrency">◈ 180</div><div class="lobbyCurrency">⚙</div></div>
+<div id="lobbyNav"><div class="navItem"><b>▣</b> SHOP</div><div class="navItem"><b>♜</b> VAULT</div><div class="navItem"><b>◇</b> EVENTS</div><div class="navItem"><b>✦</b> MISSIONS</div></div>
+<div id="lobbyRight"><div class="promo"><strong>FRONTIER CUP</strong>SEASON CHALLENGE<br>LIVE NOW</div><div class="promo"><strong>ISLAND OPS</strong>EXPLORE THE COAST<br>6 BEACONS</div></div>
+<div id="lobbyContent"><div>
+<div class="kicker">T-WANA // SEASON 01</div>
+<h1>OWN THE<br><span>FRONTIER.</span></h1>
+<p class="lead">A new island. A new legend. Explore the coast, discover hidden zones and complete the Frontier challenge.</p>
 <div class="heroCard"><div class="heroIcon">✦</div><div><div class="heroName">NOVA // PATHFINDER</div><div class="heroRole">ORIGINAL HERO · RECON CLASS</div></div></div>
-<button id="start">ENTER THE ISLAND&nbsp; →</button>
-<div id="lobbyNote">MOBILE READY · LANDSCAPE RECOMMENDED · NO DOWNLOAD</div>
-</div></section>
+<button id="start">▶ &nbsp; START MISSION</button>
+<div id="lobbyNote">3D ISLAND ARENA · MOBILE OPTIMISED · FREE BROWSER GAME</div>
+</div></div>
+<div id="lobbyBottom"><span class="lobbyTab">CHARACTER</span><span class="lobbyTab">LOADOUT</span><span class="lobbyTab">MISSIONS</span><span class="lobbyTab">ISLAND</span></div>
+</section>
 <div id="hud">
  <div class="hudTop"><div class="hudBox"><div class="hudLabel">FRONTIER ID</div><div class="hudValue">NOVA-01</div></div><div class="hudBox"><div class="hudLabel">BEACONS</div><div class="hudValue" id="score">0 / 6</div></div><div class="hudBox"><div class="hudLabel">TIME LEFT</div><div class="hudValue" id="time">120</div></div></div>
  <div id="objective">MISSION 01 · ACTIVATE 6 ENERGY BEACONS</div>
@@ -105,6 +161,45 @@ part(new THREE.BoxGeometry(.68,.22,.12),visor,0,2.3,.42);part(new THREE.BoxGeome
 part(new THREE.BoxGeometry(1.2,.38,.7),armor,0,1.6,-.05);part(new THREE.BoxGeometry(.18,.8,.18),glow,-.63,1.45,0);part(new THREE.BoxGeometry(.18,.8,.18),glow,.63,1.45,0);
 for(let s of [-1,1]){part(new THREE.CylinderGeometry(.17,.2,.78,10),suit,s*.3,.48,0);part(new THREE.BoxGeometry(.35,.18,.55),armor,s*.3,.12,.12)}
 part(new THREE.BoxGeometry(.75,.13,.18),glow,0,2.75,-.12);hero.position.set(0,.85,12);
+
+// DENSE COASTAL DISTRICT: colorful low-poly architecture, rooftop details and landmark
+const facadeMats=[mat(0xd28a55),mat(0xdaa95f),mat(0x668e9a),mat(0xc96e56),mat(0x8d9d80),mat(0xd1c29a)];
+const roofMats=[mat(0x344a50),mat(0x8b5540),mat(0x536b70),mat(0xbaa16e)];
+function smallHouse(x,z,w,h,d,i){
+ const m=facadeMats[i%facadeMats.length];box(x,h/2,z,w,h,d,m);
+ box(x,h+.12,z,w+.25,.24,d+.25,roofMats[i%roofMats.length]);
+ for(let yy=1.2;yy<h-.3;yy+=1.65){for(let xx=-w/2+0.8;xx<w/2-.2;xx+=1.65){
+ box(x+xx,yy,z-d/2-.035,.72,.72,.08,glass);
+ box(x+xx,yy,z+d/2+.035,.72,.72,.08,glass);
+ }}
+ box(x,h*.58,z-d/2-.09,w*.38,.12,.08,mat(0xf0d28d));
+ box(x,h+.42,z,w*.3,.55,d*.3,mat(0x9b8a6b));
+}
+for(let i=0;i<30;i++){
+ const side=i%4, lane=Math.floor(i/4), x=side<2?(side===0?-42:42):((lane%2?1:-1)*(14+(lane%4)*5));
+ const z=side<2?(-42+lane*12):(side===2?-42+lane*12:42-lane*12);
+ if(Math.abs(x)<11||Math.abs(z)<11)continue;
+ smallHouse(x,z,6+(i%3)*1.2,4+(i%4)*1.5,6+(i%2)*1.5,i);
+}
+// iconic curved coastal landmark arches
+const archMat=mat(0xd8c8a2,.4,.1);
+for(let i=0;i<5;i++){
+ const tor=new THREE.Mesh(new THREE.TorusGeometry(10+i*2,.72,12,64,Math.PI),archMat);
+ tor.position.set(-5+i*3,7+i*1.8,-72-i*1.5);tor.rotation.z=Math.PI;scene.add(tor);
+}
+const spire=addMesh(new THREE.ConeGeometry(4,30,6),mat(0x8db8bb,.35,.15),4,15,-78);spire.rotation.z=.12;
+const spireBase=box(4,1,-78,13,2,12,mat(0x526d78));
+// waterfront boardwalk and football mini-pitch
+box(-56,.05,4,13,.12,37,mat(0x9a865e));
+box(-57,.12,5,12,.08,19,mat(0x327e58));
+for(let x of [-63,-51])box(x,.18,5,.12,.1,19,white);
+for(let z of [-4,14])box(-57,.18,z,12,.1,.12,white);
+box(-57,.2,5,.12,.1,3,white);
+for(let i=0;i<10;i++){const x=-74+i*16;box(x,.1,-60,5,.2,2,mat(0x9a805a));}
+// palm crowns and little dock piers
+for(let i=0;i<8;i++){const x=-68+i*18,z=62+(i%2)*5;tree(x,z)}
+for(let i=0;i<4;i++){box(55+i*3,.15,-54,2,.3,18,mat(0x8b7658))}
+
 // beacon pedestals
 const beacons=[];const beaconMat=mat(0x40eaff,.2,1.7);
 for(let i=0;i<6;i++){let a=i*Math.PI/3+.4,r=25+(i%2)*8,x=Math.cos(a)*r,z=Math.sin(a)*r;let pedestal=addMesh(new THREE.CylinderGeometry(.9,1.25,.55,8),mat(0x243d51),x,.3,z);let crystal=addMesh(new THREE.OctahedronGeometry(.9),beaconMat,x,1.55,z);let halo=addMesh(new THREE.TorusGeometry(1.35,.09,8,32),glow,x,.9,z);halo.rotation.x=Math.PI/2;let light=new THREE.PointLight(0x22dfff,1.8,12);light.position.set(x,2.5,z);scene.add(light);beacons.push({x,z,crystal,halo,light,active:false})}
